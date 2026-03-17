@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
     --bg: #0d0f14;
     --surface: #161920;
@@ -18,7 +17,6 @@
     --border: rgba(255,255,255,0.07);
     --accent: #2563ff;
     --accent2: #00e5a0;
-    --accent3: #ff6b35;
     --text: #f0f2f8;
     --muted: #6b7280;
     --warning: #f59e0b;
@@ -26,21 +24,17 @@
     --font-body: 'DM Sans', sans-serif;
     --font-mono: 'DM Mono', monospace;
   }
-
   html { background: var(--bg); }
-
   body {
     font-family: var(--font-body);
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding-bottom: 40px;
+    padding-bottom: 48px;
     overflow-x: hidden;
   }
-
-  /* Header */
   .header {
-    padding: 52px 24px 32px;
+    padding: 52px 24px 28px;
     position: relative;
     overflow: hidden;
   }
@@ -77,12 +71,7 @@
     letter-spacing: -0.02em;
   }
   .header h1 span { color: var(--accent2); }
-
-  /* Sections */
-  .section {
-    padding: 0 16px;
-    margin-bottom: 12px;
-  }
+  .section { padding: 0 16px; margin-bottom: 10px; }
   .section-label {
     font-family: var(--font-mono);
     font-size: 10px;
@@ -92,8 +81,6 @@
     margin-bottom: 8px;
     padding: 0 4px;
   }
-
-  /* Cards */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -108,7 +95,7 @@
     margin-bottom: 8px;
   }
   .card-row:last-child { margin-bottom: 0; }
-  .field { }
+  .card-row.full { grid-template-columns: 1fr; }
   .field label {
     display: block;
     font-size: 11px;
@@ -130,30 +117,44 @@
     appearance: none;
     transition: border-color 0.15s;
   }
-  .field input:focus, .field select:focus {
-    border-color: rgba(37,99,255,0.5);
-  }
+  .field input:focus, .field select:focus { border-color: rgba(37,99,255,0.5); }
   .field select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
     padding-right: 32px;
   }
-
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 4px 16px 12px;
+  .selskap-inline {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: 10px;
   }
-
-  /* Scenario tabs */
-  .tabs {
+  .selskap-row {
     display: flex;
-    gap: 6px;
-    padding: 0 16px;
-    margin-bottom: 12px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
   }
+  .selskap-row:last-child { margin-bottom: 0; margin-top: 8px; }
+  .selskap-row-label { font-size: 12px; color: var(--muted); }
+  .selskap-row-val { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--text); }
+  .selskap-row-val.green { color: var(--accent2); }
+  .selskap-row-val.amber { color: var(--warning); }
+  .mini-bar-bg {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .divider { height: 1px; background: var(--border); margin: 4px 16px 12px; }
+  .tabs { display: flex; gap: 6px; padding: 0 16px; margin-bottom: 12px; }
   .tab {
     flex: 1;
     padding: 10px 6px;
@@ -167,16 +168,10 @@
     text-align: center;
     transition: all 0.15s;
   }
-  .tab.active {
-    background: var(--surface2);
-    border-color: rgba(37,99,255,0.4);
-    color: var(--text);
-  }
+  .tab.active { background: var(--surface2); border-color: rgba(37,99,255,0.4); color: var(--text); }
   .tab .tab-label { font-size: 11px; display: block; margin-bottom: 2px; color: var(--muted); }
   .tab.active .tab-label { color: var(--accent); }
   .tab .tab-val { font-family: var(--font-mono); font-weight: 500; font-size: 13px; }
-
-  /* Result card */
   .result-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -194,14 +189,8 @@
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     border-radius: 20px 20px 0 0;
   }
-
-  /* Progress bar */
   .prog-wrap { margin-bottom: 20px; }
-  .prog-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
+  .prog-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
   .prog-pct {
     font-family: var(--font-display);
     font-size: 28px;
@@ -216,20 +205,13 @@
     line-height: 1.4;
     padding-top: 4px;
   }
-  .prog-bg {
-    height: 6px;
-    background: var(--surface2);
-    border-radius: 3px;
-    overflow: hidden;
-  }
+  .prog-bg { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
   .prog-fill {
     height: 100%;
     border-radius: 3px;
     transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
     background: linear-gradient(90deg, var(--accent), var(--accent2));
   }
-
-  /* Result rows */
   .result-rows { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .result-row {
     display: flex;
@@ -243,10 +225,7 @@
     background: linear-gradient(135deg, rgba(37,99,255,0.15), rgba(0,229,160,0.08));
     border: 1px solid rgba(37,99,255,0.2);
   }
-  .result-row-label {
-    font-size: 12px;
-    color: var(--muted);
-  }
+  .result-row-label { font-size: 12px; color: var(--muted); }
   .result-row-label strong { display: block; font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 1px; }
   .result-row-val {
     font-family: var(--font-mono);
@@ -257,10 +236,8 @@
   }
   .result-row.featured .result-row-val { font-size: 22px; }
   .result-row-sub { font-size: 11px; color: var(--muted); text-align: right; margin-top: 1px; }
-
-  /* Warning */
   .warning-pill {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 5px;
     background: rgba(245,158,11,0.12);
@@ -270,10 +247,7 @@
     font-size: 12px;
     color: var(--warning);
     margin-bottom: 12px;
-    width: 100%;
   }
-
-  /* Footer note */
   .footnote {
     padding: 0 20px;
     font-size: 11px;
@@ -281,8 +255,6 @@
     line-height: 1.6;
     margin-top: 8px;
   }
-
-  /* Scenario panels */
   .scenario-panel { display: none; }
   .scenario-panel.active { display: block; }
 </style>
@@ -295,20 +267,20 @@
 </div>
 
 <div class="section">
-  <div class="section-label">Grunnlag</div>
+  <div class="section-label">Grunnlag — individuell</div>
   <div class="card">
     <div class="card-row">
       <div class="field">
-        <label>OTE per år</label>
+        <label>OTE per år (kr)</label>
         <input type="number" id="ote" value="450000" inputmode="numeric" />
       </div>
       <div class="field">
-        <label>Kvartalsmål</label>
+        <label>Kvartalsmål (kr)</label>
         <input type="number" id="maal" value="167500" inputmode="numeric" />
       </div>
     </div>
-    <div class="card-row">
-      <div class="field" style="grid-column: 1 / -1;">
+    <div class="card-row full">
+      <div class="field">
         <label>Periode</label>
         <select id="kvartal">
           <option value="q2">Q2 2026 — garanti 70% gjelder</option>
@@ -320,15 +292,42 @@
 </div>
 
 <div class="section">
-  <div class="section-label">Scenarier</div>
+  <div class="section-label">Selskapsbonus (Tripletex AS topplinje)</div>
   <div class="card">
     <div class="card-row">
       <div class="field">
-        <label>Eksisterende kunder</label>
+        <label>Selskapsbudsjett Q (kr)</label>
+        <input type="number" id="s-budsjett" value="306800000" inputmode="numeric" />
+      </div>
+      <div class="field">
+        <label>Faktisk inntekt Q (kr)</label>
+        <input type="number" id="s-faktisk" value="305900000" inputmode="numeric" />
+      </div>
+    </div>
+    <div class="selskap-inline">
+      <div class="selskap-row">
+        <span class="selskap-row-label">Selskapets oppnåelse</span>
+        <span class="selskap-row-val" id="s-pct-val">—</span>
+      </div>
+      <div class="mini-bar-bg"><div class="mini-bar-fill" id="s-bar" style="width:0%"></div></div>
+      <div class="selskap-row" style="margin-top:8px; margin-bottom:0;">
+        <span class="selskap-row-label">Din selskapsbonus dette kvartalet</span>
+        <span class="selskap-row-val green" id="s-bonus-val">—</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Dine salgsscenarier</div>
+  <div class="card">
+    <div class="card-row">
+      <div class="field">
+        <label>Eksisterende kunder (kr)</label>
         <input type="number" id="existing" value="177276" inputmode="numeric" />
       </div>
       <div class="field">
-        <label>Samlet forecast</label>
+        <label>Samlet forecast (kr)</label>
         <input type="number" id="forecast" value="219602" inputmode="numeric" />
       </div>
     </div>
@@ -348,7 +347,6 @@
   </div>
 </div>
 
-<!-- Eksisterende kunder panel -->
 <div id="panel-ex" class="scenario-panel active">
   <div class="result-card">
     <div class="prog-wrap">
@@ -361,16 +359,12 @@
     <div id="ex-warning" style="display:none" class="warning-pill">⚠ Under garantinivå — Q2-garanti aktivert</div>
     <div class="result-rows">
       <div class="result-row">
-        <div class="result-row-label"><strong>Individuell bonus</strong>80% av OTE, kurvebasert</div>
-        <div>
-          <div class="result-row-val" id="ex-indiv">—</div>
-        </div>
+        <div class="result-row-label"><strong>Individuell bonus</strong>80% av OTE, S-kurve</div>
+        <div class="result-row-val" id="ex-indiv">—</div>
       </div>
       <div class="result-row">
-        <div class="result-row-label"><strong>+ Selskapsbonus</strong>20% av OTE (est.)</div>
-        <div>
-          <div class="result-row-val" id="ex-selskap">—</div>
-        </div>
+        <div class="result-row-label"><strong>+ Selskapsbonus</strong>20% av OTE, faktisk oppnåelse</div>
+        <div class="result-row-val" id="ex-selskap">—</div>
       </div>
       <div class="result-row featured">
         <div class="result-row-label"><strong>Per måned</strong>utbetalt over 3 mnd</div>
@@ -383,7 +377,6 @@
   </div>
 </div>
 
-<!-- Forecast panel -->
 <div id="panel-fc" class="scenario-panel">
   <div class="result-card">
     <div class="prog-wrap">
@@ -396,16 +389,12 @@
     <div id="fc-warning" style="display:none" class="warning-pill">⚠ Under garantinivå — Q2-garanti aktivert</div>
     <div class="result-rows">
       <div class="result-row">
-        <div class="result-row-label"><strong>Individuell bonus</strong>80% av OTE, kurvebasert</div>
-        <div>
-          <div class="result-row-val" id="fc-indiv">—</div>
-        </div>
+        <div class="result-row-label"><strong>Individuell bonus</strong>80% av OTE, S-kurve</div>
+        <div class="result-row-val" id="fc-indiv">—</div>
       </div>
       <div class="result-row">
-        <div class="result-row-label"><strong>+ Selskapsbonus</strong>20% av OTE (est.)</div>
-        <div>
-          <div class="result-row-val" id="fc-selskap">—</div>
-        </div>
+        <div class="result-row-label"><strong>+ Selskapsbonus</strong>20% av OTE, faktisk oppnåelse</div>
+        <div class="result-row-val" id="fc-selskap">—</div>
       </div>
       <div class="result-row featured">
         <div class="result-row-label"><strong>Per måned</strong>utbetalt over 3 mnd</div>
@@ -419,15 +408,12 @@
 </div>
 
 <div class="footnote">
-  * Selskapsbonus er et estimat ved 100% selskapsmål og avhenger av Tripletex AS sin totale oppnåelse. Kurven baserer seg på provisjonsbeskrivelsen gjeldende fra 01.02.2026.
+  Selskapsbonus beregnes med samme S-kurve som individuell bonus (slår inn fra 65% oppnåelse). Selskapsbudsjett og faktisk inntekt er forhåndsutfylt fra avdelingsmøtet 13.03.26 (EoM februar). Oppdater med nye tall etter hvert kvartal.
 </div>
 
 <script>
-let activeTab = 'ex';
-
 function switchTab(tab) {
-  activeTab = tab;
-  document.querySelectorAll('.tab').forEach((t,i) => {
+  document.querySelectorAll('.tab').forEach((t, i) => {
     t.classList.toggle('active', (i === 0 && tab === 'ex') || (i === 1 && tab === 'fc'));
   });
   document.getElementById('panel-ex').classList.toggle('active', tab === 'ex');
@@ -440,8 +426,8 @@ function fmt(n) {
 
 function kurve(opp) {
   const pts = [
-    [0, 0], [0.65, 0], [0.70, 0.65], [1.00, 1.00],
-    [1.25, 1.50], [1.50, 1.55], [1.75, 1.60], [2.00, 1.65]
+    [0,0],[0.65,0],[0.70,0.65],[1.00,1.00],
+    [1.25,1.50],[1.50,1.55],[1.75,1.60],[2.00,1.65]
   ];
   if (opp <= 0) return 0;
   for (let i = 1; i < pts.length; i++) {
@@ -459,15 +445,25 @@ function calc() {
   const existing = parseFloat(document.getElementById('existing').value) || 0;
   const forecast = parseFloat(document.getElementById('forecast').value) || 0;
   const kvartal = document.getElementById('kvartal').value;
+  const sBudsjett = parseFloat(document.getElementById('s-budsjett').value) || 0;
+  const sFaktisk = parseFloat(document.getElementById('s-faktisk').value) || 0;
 
   const individOTE_kv = ote * 0.80 / 4;
   const selskapOTE_kv = ote * 0.20 / 4;
   const garanti = individOTE_kv * 0.70;
 
+  const sOpp = sBudsjett > 0 ? sFaktisk / sBudsjett : 0;
+  const sPct = sOpp * 100;
+  const selskapBonus = kurve(sOpp) * selskapOTE_kv;
+
+  document.getElementById('s-pct-val').textContent = sPct.toFixed(1) + '%';
+  document.getElementById('s-pct-val').className = 'selskap-row-val ' + (sPct >= 65 ? 'green' : 'amber');
+  document.getElementById('s-bar').style.width = Math.min(sPct, 100) + '%';
+  document.getElementById('s-bonus-val').textContent = fmt(selskapBonus);
+
   function update(prefix, val) {
     const opp = maal > 0 ? val / maal : 0;
     const pct = opp * 100;
-    const barW = Math.min(pct, 100);
 
     let indiv = kurve(opp) * individOTE_kv;
     let garantiAktiv = false;
@@ -476,30 +472,29 @@ function calc() {
       garantiAktiv = true;
     }
 
-    const selskap = selskapOTE_kv;
-    const total = indiv + selskap;
-    const monthly = total / 3;
+    const monthly = (indiv + selskapBonus) / 3;
 
-    document.getElementById(prefix + '-pct').textContent = pct.toFixed(1) + '%';
-    document.getElementById(prefix + '-prog-label').textContent = fmt(val) + ' av ' + fmt(maal);
-    document.getElementById(prefix + '-fill').style.width = barW + '%';
-    document.getElementById(prefix + '-indiv').textContent = fmt(indiv);
-    document.getElementById(prefix + '-selskap').textContent = fmt(selskap);
-    document.getElementById(prefix + '-month').textContent = fmt(monthly);
+    document.getElementById(prefix+'-pct').textContent = pct.toFixed(1)+'%';
+    document.getElementById(prefix+'-prog-label').textContent = fmt(val)+' av '+fmt(maal);
+    document.getElementById(prefix+'-fill').style.width = Math.min(pct,100)+'%';
+    document.getElementById(prefix+'-indiv').textContent = fmt(indiv);
+    document.getElementById(prefix+'-selskap').textContent = fmt(selskapBonus);
+    document.getElementById(prefix+'-month').textContent = fmt(monthly);
 
-    const sub = document.getElementById(prefix + '-month-sub');
-    const warn = document.getElementById(prefix + '-warning');
+    const sub = document.getElementById(prefix+'-month-sub');
+    const warn = document.getElementById(prefix+'-warning');
     if (garantiAktiv) {
       sub.textContent = 'Q2-garanti aktivert';
+      sub.style.color = 'var(--warning)';
       warn.style.display = 'flex';
     } else {
       sub.textContent = 'inkl. selskapsbonus';
+      sub.style.color = 'var(--muted)';
       warn.style.display = 'none';
     }
 
-    // tab summary
-    if (prefix === 'ex') document.getElementById('tab-ex-val').textContent = fmt(monthly) + '/mnd';
-    if (prefix === 'fc') document.getElementById('tab-fc-val').textContent = fmt(monthly) + '/mnd';
+    if (prefix==='ex') document.getElementById('tab-ex-val').textContent = fmt(monthly)+'/mnd';
+    if (prefix==='fc') document.getElementById('tab-fc-val').textContent = fmt(monthly)+'/mnd';
   }
 
   update('ex', existing);
