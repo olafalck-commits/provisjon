@@ -4,497 +4,572 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Provisjon">
 <title>Provisjonskalkulator</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --bg: #0d0f14;
-    --surface: #161920;
-    --surface2: #1e2330;
-    --border: rgba(255,255,255,0.07);
-    --accent: #2563ff;
-    --accent2: #00e5a0;
-    --text: #f0f2f8;
-    --muted: #6b7280;
-    --warning: #f59e0b;
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --font-mono: 'DM Mono', monospace;
+    --bg: #f8f7f5;
+    --white: #ffffff;
+    --ink: #111110;
+    --ink2: #444440;
+    --ink3: #888884;
+    --line: #e8e6e1;
+    --line2: #d4d0c8;
+    --blue: #1a56ff;
+    --blue-light: #eef2ff;
+    --green: #00875a;
+    --green-light: #e6f7f0;
+    --amber: #b45309;
+    --amber-light: #fef3c7;
+    --font-serif: 'Instrument Serif', Georgia, serif;
+    --font-sans: 'Geist', system-ui, sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+    --r: 12px;
+    --r-lg: 18px;
   }
+
   html { background: var(--bg); }
   body {
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     background: var(--bg);
-    color: var(--text);
+    color: var(--ink);
     min-height: 100vh;
-    padding-bottom: 48px;
-    overflow-x: hidden;
+    padding-bottom: 60px;
   }
+
+  /* Header */
   .header {
-    padding: 52px 24px 28px;
-    position: relative;
-    overflow: hidden;
+    padding: 48px 24px 36px;
+    border-bottom: 1px solid var(--line);
+    background: var(--white);
   }
-  .header::before {
-    content: '';
-    position: absolute;
-    top: -60px; left: -40px;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(37,99,255,0.18) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .header::after {
-    content: '';
-    position: absolute;
-    top: 20px; right: -60px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(0,229,160,0.10) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .logo {
+  .eyebrow {
     font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent2);
-    letter-spacing: 0.15em;
+    font-size: 10px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 12px;
-    opacity: 0.9;
+    color: var(--ink3);
+    margin-bottom: 10px;
   }
   .header h1 {
-    font-family: var(--font-display);
-    font-size: 32px;
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
   }
-  .header h1 span { color: var(--accent2); }
-  .section { padding: 0 16px; margin-bottom: 10px; }
+  .header h1 em {
+    font-style: italic;
+    color: var(--blue);
+  }
+  .header-meta {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--ink3);
+  }
+
+  /* Layout */
+  .body { padding: 0; }
+
+  /* Section */
+  .section {
+    padding: 20px 24px 0;
+  }
   .section-label {
     font-family: var(--font-mono);
     font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 8px;
-    padding: 0 4px;
+    color: var(--ink3);
+    margin-bottom: 10px;
   }
+
+  /* Card */
   .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
     padding: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 0;
   }
-  .card-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .card-row:last-child { margin-bottom: 0; }
-  .card-row.full { grid-template-columns: 1fr; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid2 + * { margin-top: 10px; }
+
+  /* Field */
+  .field {}
   .field label {
     display: block;
     font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 6px;
-    letter-spacing: 0.03em;
+    font-weight: 500;
+    color: var(--ink3);
+    margin-bottom: 5px;
+    letter-spacing: 0.02em;
   }
   .field input, .field select {
     width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--line2);
+    border-radius: 8px;
+    padding: 9px 11px;
     font-family: var(--font-mono);
-    font-size: 15px;
-    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
     outline: none;
     -webkit-appearance: none;
     appearance: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.12s, background 0.12s;
   }
-  .field input:focus, .field select:focus { border-color: rgba(37,99,255,0.5); }
+  .field input:focus, .field select:focus {
+    border-color: var(--blue);
+    background: var(--white);
+  }
   .field select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23888884' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
+    background-position: right 11px center;
+    padding-right: 28px;
   }
-  .selskap-inline {
+
+  /* Divider */
+  .divider { height: 1px; background: var(--line); margin: 20px 0 0; }
+
+  /* Selskapsbonus inline */
+  .selskap-result {
     margin-top: 10px;
-    padding: 10px 12px;
-    background: var(--surface2);
-    border-radius: 10px;
-  }
-  .selskap-row {
+    padding: 12px 14px;
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--line);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
+    gap: 12px;
   }
-  .selskap-row:last-child { margin-bottom: 0; margin-top: 8px; }
-  .selskap-row-label { font-size: 12px; color: var(--muted); }
-  .selskap-row-val { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--text); }
-  .selskap-row-val.green { color: var(--accent2); }
-  .selskap-row-val.amber { color: var(--warning); }
-  .mini-bar-bg {
-    height: 4px;
-    background: rgba(255,255,255,0.08);
+  .selskap-result-left { flex: 1; }
+  .selskap-prog-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  .selskap-prog-label { font-size: 11px; color: var(--ink3); }
+  .selskap-prog-pct { font-family: var(--font-mono); font-size: 11px; font-weight: 500; }
+  .selskap-prog-pct.ok { color: var(--green); }
+  .selskap-prog-pct.warn { color: var(--amber); }
+  .mini-track {
+    height: 3px;
+    background: var(--line2);
     border-radius: 2px;
     overflow: hidden;
   }
-  .mini-bar-fill {
+  .mini-fill {
     height: 100%;
     border-radius: 2px;
+    background: var(--green);
     transition: width 0.3s;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
   }
-  .divider { height: 1px; background: var(--border); margin: 4px 16px 12px; }
-  .tabs { display: flex; gap: 6px; padding: 0 16px; margin-bottom: 12px; }
+  .selskap-bonus-val {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  /* Scenario tabs */
+  .tabs-wrap { padding: 20px 24px 0; }
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
   .tab {
-    flex: 1;
-    padding: 10px 6px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--muted);
+    padding: 14px 12px;
+    border-radius: var(--r);
+    border: 1px solid var(--line2);
+    background: var(--white);
     cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
+    transition: all 0.12s;
+    text-align: left;
   }
-  .tab.active { background: var(--surface2); border-color: rgba(37,99,255,0.4); color: var(--text); }
-  .tab .tab-label { font-size: 11px; display: block; margin-bottom: 2px; color: var(--muted); }
-  .tab.active .tab-label { color: var(--accent); }
-  .tab .tab-val { font-family: var(--font-mono); font-weight: 500; font-size: 13px; }
+  .tab:active { transform: scale(0.98); }
+  .tab.active {
+    border-color: var(--blue);
+    background: var(--blue-light);
+  }
+  .tab-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 4px;
+  }
+  .tab.active .tab-eyebrow { color: var(--blue); }
+  .tab-val {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* Result panel */
+  .result-wrap { padding: 12px 24px 0; }
   .result-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 20px 16px;
-    margin: 0 16px 12px;
-    position: relative;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
     overflow: hidden;
   }
-  .result-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 20px 20px 0 0;
+
+  /* Progress header */
+  .result-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--line);
   }
-  .prog-wrap { margin-bottom: 20px; }
-  .prog-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
-  .prog-pct {
-    font-family: var(--font-display);
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.03em;
+  .result-pct-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
   }
-  .prog-label {
+  .result-pct {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .result-pct-label {
+    font-size: 13px;
+    color: var(--ink3);
+  }
+  .result-range {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--muted);
-    text-align: right;
-    line-height: 1.4;
-    padding-top: 4px;
+    color: var(--ink3);
+    margin-bottom: 10px;
   }
-  .prog-bg { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
-  .prog-fill {
+  .track {
+    height: 4px;
+    background: var(--line2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .track-fill {
     height: 100%;
-    border-radius: 3px;
+    border-radius: 2px;
+    background: var(--blue);
     transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
   }
-  .result-rows { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+
+  /* Warning */
+  .warn-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--amber-light);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--amber);
+    font-weight: 500;
+    margin: 12px 20px 0;
+  }
+
+  /* Result rows */
+  .result-rows { }
   .result-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 14px;
-    background: var(--surface2);
-    border-radius: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
   }
-  .result-row.featured {
-    background: linear-gradient(135deg, rgba(37,99,255,0.15), rgba(0,229,160,0.08));
-    border: 1px solid rgba(37,99,255,0.2);
+  .result-row:last-child { border-bottom: none; }
+  .result-row.total {
+    background: var(--bg);
   }
-  .result-row-label { font-size: 12px; color: var(--muted); }
-  .result-row-label strong { display: block; font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 1px; }
-  .result-row-val {
+  .row-label { font-size: 13px; color: var(--ink2); }
+  .row-label small { display: block; font-size: 11px; color: var(--ink3); margin-top: 1px; }
+  .row-val {
     font-family: var(--font-mono);
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
-    color: var(--accent2);
+    color: var(--ink);
+  }
+  .row-val.big {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--blue);
+  }
+  .row-sub {
+    font-size: 10px;
+    color: var(--ink3);
     text-align: right;
+    margin-top: 2px;
+    font-family: var(--font-mono);
   }
-  .result-row.featured .result-row-val { font-size: 22px; }
-  .result-row-sub { font-size: 11px; color: var(--muted); text-align: right; margin-top: 1px; }
-  .warning-pill {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(245,158,11,0.12);
-    border: 1px solid rgba(245,158,11,0.25);
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 12px;
-    color: var(--warning);
-    margin-bottom: 12px;
-  }
+
+  /* Footnote */
   .footnote {
-    padding: 0 20px;
+    padding: 16px 24px 0;
     font-size: 11px;
-    color: var(--muted);
+    color: var(--ink3);
     line-height: 1.6;
-    margin-top: 8px;
   }
+
+  /* Panels */
   .scenario-panel { display: none; }
   .scenario-panel.active { display: block; }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .scenario-panel.active { animation: fadeIn 0.15s ease; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo">Tripletex · New Sales SMB</div>
-  <h1>Provisjon<br><span>kalkulator</span></h1>
+  <div class="eyebrow">Tripletex · New Sales SMB</div>
+  <h1>Provisjon<em>kalkulator</em></h1>
+  <div class="header-meta">Oppdatert med provisjonsbeskrivelse fra 01.02.2026</div>
 </div>
 
-<div class="section">
-  <div class="section-label">Grunnlag — individuell</div>
-  <div class="card">
-    <div class="card-row">
-      <div class="field">
-        <label>OTE per år (kr)</label>
-        <input type="number" id="ote" value="450000" inputmode="numeric" />
-      </div>
-      <div class="field">
-        <label>Kvartalsmål (kr)</label>
-        <input type="number" id="maal" value="167500" inputmode="numeric" />
-      </div>
-    </div>
-    <div class="card-row full">
-      <div class="field">
-        <label>Periode</label>
-        <select id="kvartal">
-          <option value="q2">Q2 2026 — garanti 70% gjelder</option>
-          <option value="normal">Q3+ — ordinær modell</option>
-        </select>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="body">
 
-<div class="section">
-  <div class="section-label">Selskapsbonus (Tripletex AS topplinje)</div>
-  <div class="card">
-    <div class="card-row">
-      <div class="field">
-        <label>Selskapsbudsjett Q (kr)</label>
-        <input type="number" id="s-budsjett" value="306800000" inputmode="numeric" />
+  <div class="section" style="padding-top:20px;">
+    <div class="section-label">Grunnlag</div>
+    <div class="card">
+      <div class="grid2">
+        <div class="field">
+          <label>OTE per år</label>
+          <input type="number" id="ote" value="450000" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Kvartalsmål</label>
+          <input type="number" id="maal" value="167500" inputmode="numeric" />
+        </div>
       </div>
-      <div class="field">
-        <label>Faktisk inntekt Q (kr)</label>
-        <input type="number" id="s-faktisk" value="305900000" inputmode="numeric" />
-      </div>
-    </div>
-    <div class="selskap-inline">
-      <div class="selskap-row">
-        <span class="selskap-row-label">Selskapets oppnåelse</span>
-        <span class="selskap-row-val" id="s-pct-val">—</span>
-      </div>
-      <div class="mini-bar-bg"><div class="mini-bar-fill" id="s-bar" style="width:0%"></div></div>
-      <div class="selskap-row" style="margin-top:8px; margin-bottom:0;">
-        <span class="selskap-row-label">Din selskapsbonus dette kvartalet</span>
-        <span class="selskap-row-val green" id="s-bonus-val">—</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-label">Dine salgsscenarier</div>
-  <div class="card">
-    <div class="card-row">
-      <div class="field">
-        <label>Eksisterende kunder (kr)</label>
-        <input type="number" id="existing" value="177276" inputmode="numeric" />
-      </div>
-      <div class="field">
-        <label>Samlet forecast (kr)</label>
-        <input type="number" id="forecast" value="219602" inputmode="numeric" />
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('ex')">
-    <span class="tab-label">Eks. kunder</span>
-    <span class="tab-val" id="tab-ex-val">—</span>
-  </div>
-  <div class="tab" onclick="switchTab('fc')">
-    <span class="tab-label">Forecast</span>
-    <span class="tab-val" id="tab-fc-val">—</span>
-  </div>
-</div>
-
-<div id="panel-ex" class="scenario-panel active">
-  <div class="result-card">
-    <div class="prog-wrap">
-      <div class="prog-header">
-        <div class="prog-pct" id="ex-pct">—</div>
-        <div class="prog-label" id="ex-prog-label">av mål</div>
-      </div>
-      <div class="prog-bg"><div class="prog-fill" id="ex-fill" style="width:0%"></div></div>
-    </div>
-    <div id="ex-warning" style="display:none" class="warning-pill">⚠ Under garantinivå — Q2-garanti aktivert</div>
-    <div class="result-rows">
-      <div class="result-row">
-        <div class="result-row-label"><strong>Individuell bonus</strong>80% av OTE, S-kurve</div>
-        <div class="result-row-val" id="ex-indiv">—</div>
-      </div>
-      <div class="result-row">
-        <div class="result-row-label"><strong>+ Selskapsbonus</strong>20% av OTE, faktisk oppnåelse</div>
-        <div class="result-row-val" id="ex-selskap">—</div>
-      </div>
-      <div class="result-row featured">
-        <div class="result-row-label"><strong>Per måned</strong>utbetalt over 3 mnd</div>
-        <div>
-          <div class="result-row-val" id="ex-month">—</div>
-          <div class="result-row-sub" id="ex-month-sub"></div>
+      <div style="margin-top:10px;">
+        <div class="field">
+          <label>Periode</label>
+          <select id="kvartal">
+            <option value="q2">Q2 2026 — garanti 70% gjelder</option>
+            <option value="normal">Q3+ — ordinær modell</option>
+          </select>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="panel-fc" class="scenario-panel">
-  <div class="result-card">
-    <div class="prog-wrap">
-      <div class="prog-header">
-        <div class="prog-pct" id="fc-pct">—</div>
-        <div class="prog-label" id="fc-prog-label">av mål</div>
+  <div class="section" style="padding-top:16px;">
+    <div class="section-label">Selskapsbonus — Tripletex AS topplinje</div>
+    <div class="card">
+      <div class="grid2">
+        <div class="field">
+          <label>Selskapsbudsjett Q</label>
+          <input type="number" id="s-budsjett" value="306800000" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Faktisk inntekt Q</label>
+          <input type="number" id="s-faktisk" value="305900000" inputmode="numeric" />
+        </div>
       </div>
-      <div class="prog-bg"><div class="prog-fill" id="fc-fill" style="width:0%"></div></div>
+      <div class="selskap-result">
+        <div class="selskap-result-left">
+          <div class="selskap-prog-header">
+            <span class="selskap-prog-label">Oppnåelse</span>
+            <span class="selskap-prog-pct" id="s-pct-val">—</span>
+          </div>
+          <div class="mini-track"><div class="mini-fill" id="s-bar" style="width:0%"></div></div>
+        </div>
+        <div class="selskap-bonus-val" id="s-bonus-val">—</div>
+      </div>
     </div>
-    <div id="fc-warning" style="display:none" class="warning-pill">⚠ Under garantinivå — Q2-garanti aktivert</div>
-    <div class="result-rows">
-      <div class="result-row">
-        <div class="result-row-label"><strong>Individuell bonus</strong>80% av OTE, S-kurve</div>
-        <div class="result-row-val" id="fc-indiv">—</div>
-      </div>
-      <div class="result-row">
-        <div class="result-row-label"><strong>+ Selskapsbonus</strong>20% av OTE, faktisk oppnåelse</div>
-        <div class="result-row-val" id="fc-selskap">—</div>
-      </div>
-      <div class="result-row featured">
-        <div class="result-row-label"><strong>Per måned</strong>utbetalt over 3 mnd</div>
-        <div>
-          <div class="result-row-val" id="fc-month">—</div>
-          <div class="result-row-sub" id="fc-month-sub"></div>
+  </div>
+
+  <div class="section" style="padding-top:16px;">
+    <div class="section-label">Dine scenarier</div>
+    <div class="card">
+      <div class="grid2">
+        <div class="field">
+          <label>Eksisterende kunder</label>
+          <input type="number" id="existing" value="177276" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Samlet forecast</label>
+          <input type="number" id="forecast" value="219602" inputmode="numeric" />
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="footnote">
-  Selskapsbonus beregnes med samme S-kurve som individuell bonus (slår inn fra 65% oppnåelse). Selskapsbudsjett og faktisk inntekt er forhåndsutfylt fra avdelingsmøtet 13.03.26 (EoM februar). Oppdater med nye tall etter hvert kvartal.
+  <div class="divider"></div>
+
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('ex')">
+        <div class="tab-eyebrow">Eks. kunder</div>
+        <div class="tab-val" id="tab-ex-val">—</div>
+      </div>
+      <div class="tab" onclick="switchTab('fc')">
+        <div class="tab-eyebrow">Forecast</div>
+        <div class="tab-val" id="tab-fc-val">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Eksisterende kunder -->
+  <div id="panel-ex" class="scenario-panel active">
+    <div class="result-wrap">
+      <div class="result-card">
+        <div class="result-header">
+          <div class="result-pct-row">
+            <div class="result-pct" id="ex-pct">—</div>
+            <div class="result-pct-label">av kvartalsmål</div>
+          </div>
+          <div class="result-range" id="ex-range">—</div>
+          <div class="track"><div class="track-fill" id="ex-fill" style="width:0%"></div></div>
+        </div>
+        <div id="ex-warning" style="display:none" class="warn-pill">⚠ Under garantinivå — Q2-garanti aktivert</div>
+        <div class="result-rows">
+          <div class="result-row">
+            <div class="row-label">Individuell bonus<small>80% av OTE · S-kurve</small></div>
+            <div class="row-val" id="ex-indiv">—</div>
+          </div>
+          <div class="result-row">
+            <div class="row-label">Selskapsbonus<small>20% av OTE · faktisk oppnåelse</small></div>
+            <div class="row-val" id="ex-selskap">—</div>
+          </div>
+          <div class="result-row total">
+            <div class="row-label">Per måned<small>utbetalt over 3 mnd neste kvartal</small></div>
+            <div>
+              <div class="row-val big" id="ex-month">—</div>
+              <div class="row-sub" id="ex-sub"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forecast -->
+  <div id="panel-fc" class="scenario-panel">
+    <div class="result-wrap">
+      <div class="result-card">
+        <div class="result-header">
+          <div class="result-pct-row">
+            <div class="result-pct" id="fc-pct">—</div>
+            <div class="result-pct-label">av kvartalsmål</div>
+          </div>
+          <div class="result-range" id="fc-range">—</div>
+          <div class="track"><div class="track-fill" id="fc-fill" style="width:0%"></div></div>
+        </div>
+        <div id="fc-warning" style="display:none" class="warn-pill">⚠ Under garantinivå — Q2-garanti aktivert</div>
+        <div class="result-rows">
+          <div class="result-row">
+            <div class="row-label">Individuell bonus<small>80% av OTE · S-kurve</small></div>
+            <div class="row-val" id="fc-indiv">—</div>
+          </div>
+          <div class="result-row">
+            <div class="row-label">Selskapsbonus<small>20% av OTE · faktisk oppnåelse</small></div>
+            <div class="row-val" id="fc-selskap">—</div>
+          </div>
+          <div class="result-row total">
+            <div class="row-label">Per måned<small>utbetalt over 3 mnd neste kvartal</small></div>
+            <div>
+              <div class="row-val big" id="fc-month">—</div>
+              <div class="row-sub" id="fc-sub"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    Selskapsbonus bruker samme S-kurve som individuell bonus (slår inn fra 65% oppnåelse). Selskapstall forhåndsutfylt fra avdelingsmøtet 13.03.26.
+  </div>
+
 </div>
 
 <script>
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', (i === 0 && tab === 'ex') || (i === 1 && tab === 'fc'));
+    t.classList.toggle('active', (i===0&&tab==='ex')||(i===1&&tab==='fc'));
   });
-  document.getElementById('panel-ex').classList.toggle('active', tab === 'ex');
-  document.getElementById('panel-fc').classList.toggle('active', tab === 'fc');
+  document.getElementById('panel-ex').classList.toggle('active', tab==='ex');
+  document.getElementById('panel-fc').classList.toggle('active', tab==='fc');
 }
 
-function fmt(n) {
-  return Math.round(n).toLocaleString('nb-NO') + ' kr';
-}
+function fmt(n) { return Math.round(n).toLocaleString('nb-NO') + ' kr'; }
 
 function kurve(opp) {
-  const pts = [
-    [0,0],[0.65,0],[0.70,0.65],[1.00,1.00],
-    [1.25,1.50],[1.50,1.55],[1.75,1.60],[2.00,1.65]
-  ];
+  const pts = [[0,0],[0.65,0],[0.70,0.65],[1.00,1.00],[1.25,1.50],[1.50,1.55],[1.75,1.60],[2.00,1.65]];
   if (opp <= 0) return 0;
   for (let i = 1; i < pts.length; i++) {
     if (opp <= pts[i][0]) {
       const t = (opp - pts[i-1][0]) / (pts[i][0] - pts[i-1][0]);
-      return pts[i-1][1] + t * (pts[i][1] - pts[i-1][1]);
+      return pts[i-1][1] + t*(pts[i][1]-pts[i-1][1]);
     }
   }
   return pts[pts.length-1][1];
 }
 
 function calc() {
-  const ote = parseFloat(document.getElementById('ote').value) || 0;
-  const maal = parseFloat(document.getElementById('maal').value) || 0;
-  const existing = parseFloat(document.getElementById('existing').value) || 0;
-  const forecast = parseFloat(document.getElementById('forecast').value) || 0;
+  const ote = parseFloat(document.getElementById('ote').value)||0;
+  const maal = parseFloat(document.getElementById('maal').value)||0;
+  const existing = parseFloat(document.getElementById('existing').value)||0;
+  const forecast = parseFloat(document.getElementById('forecast').value)||0;
   const kvartal = document.getElementById('kvartal').value;
-  const sBudsjett = parseFloat(document.getElementById('s-budsjett').value) || 0;
-  const sFaktisk = parseFloat(document.getElementById('s-faktisk').value) || 0;
+  const sBudsjett = parseFloat(document.getElementById('s-budsjett').value)||0;
+  const sFaktisk = parseFloat(document.getElementById('s-faktisk').value)||0;
 
-  const individOTE_kv = ote * 0.80 / 4;
-  const selskapOTE_kv = ote * 0.20 / 4;
-  const garanti = individOTE_kv * 0.70;
+  const individKv = ote*0.80/4;
+  const selskapKv = ote*0.20/4;
+  const garanti = individKv*0.70;
 
-  const sOpp = sBudsjett > 0 ? sFaktisk / sBudsjett : 0;
-  const sPct = sOpp * 100;
-  const selskapBonus = kurve(sOpp) * selskapOTE_kv;
+  // Selskapsbonus
+  const sOpp = sBudsjett>0 ? sFaktisk/sBudsjett : 0;
+  const sPct = sOpp*100;
+  const sBonus = kurve(sOpp)*selskapKv;
+  document.getElementById('s-pct-val').textContent = sPct.toFixed(1)+'%';
+  document.getElementById('s-pct-val').className = 'selskap-prog-pct '+(sPct>=65?'ok':'warn');
+  document.getElementById('s-bar').style.width = Math.min(sPct,100)+'%';
+  document.getElementById('s-bonus-val').textContent = fmt(sBonus);
 
-  document.getElementById('s-pct-val').textContent = sPct.toFixed(1) + '%';
-  document.getElementById('s-pct-val').className = 'selskap-row-val ' + (sPct >= 65 ? 'green' : 'amber');
-  document.getElementById('s-bar').style.width = Math.min(sPct, 100) + '%';
-  document.getElementById('s-bonus-val').textContent = fmt(selskapBonus);
-
-  function update(prefix, val) {
-    const opp = maal > 0 ? val / maal : 0;
-    const pct = opp * 100;
-
-    let indiv = kurve(opp) * individOTE_kv;
+  function update(p, val) {
+    const opp = maal>0 ? val/maal : 0;
+    const pct = opp*100;
+    let indiv = kurve(opp)*individKv;
     let garantiAktiv = false;
-    if (kvartal === 'q2' && indiv < garanti) {
-      indiv = garanti;
-      garantiAktiv = true;
-    }
+    if (kvartal==='q2' && indiv<garanti) { indiv=garanti; garantiAktiv=true; }
+    const monthly = (indiv+sBonus)/3;
 
-    const monthly = (indiv + selskapBonus) / 3;
+    document.getElementById(p+'-pct').textContent = pct.toFixed(1)+'%';
+    document.getElementById(p+'-range').textContent = fmt(val)+' av '+fmt(maal);
+    document.getElementById(p+'-fill').style.width = Math.min(pct,100)+'%';
+    document.getElementById(p+'-indiv').textContent = fmt(indiv);
+    document.getElementById(p+'-selskap').textContent = fmt(sBonus);
+    document.getElementById(p+'-month').textContent = fmt(monthly);
 
-    document.getElementById(prefix+'-pct').textContent = pct.toFixed(1)+'%';
-    document.getElementById(prefix+'-prog-label').textContent = fmt(val)+' av '+fmt(maal);
-    document.getElementById(prefix+'-fill').style.width = Math.min(pct,100)+'%';
-    document.getElementById(prefix+'-indiv').textContent = fmt(indiv);
-    document.getElementById(prefix+'-selskap').textContent = fmt(selskapBonus);
-    document.getElementById(prefix+'-month').textContent = fmt(monthly);
+    const sub = document.getElementById(p+'-sub');
+    const warn = document.getElementById(p+'-warning');
+    sub.textContent = garantiAktiv ? 'Q2-garanti aktivert' : 'inkl. selskapsbonus';
+    sub.style.color = garantiAktiv ? 'var(--amber)' : 'var(--ink3)';
+    warn.style.display = garantiAktiv ? 'flex' : 'none';
 
-    const sub = document.getElementById(prefix+'-month-sub');
-    const warn = document.getElementById(prefix+'-warning');
-    if (garantiAktiv) {
-      sub.textContent = 'Q2-garanti aktivert';
-      sub.style.color = 'var(--warning)';
-      warn.style.display = 'flex';
-    } else {
-      sub.textContent = 'inkl. selskapsbonus';
-      sub.style.color = 'var(--muted)';
-      warn.style.display = 'none';
-    }
-
-    if (prefix==='ex') document.getElementById('tab-ex-val').textContent = fmt(monthly)+'/mnd';
-    if (prefix==='fc') document.getElementById('tab-fc-val').textContent = fmt(monthly)+'/mnd';
+    if(p==='ex') document.getElementById('tab-ex-val').textContent = fmt(monthly)+'/mnd';
+    if(p==='fc') document.getElementById('tab-fc-val').textContent = fmt(monthly)+'/mnd';
   }
 
   update('ex', existing);
@@ -502,6 +577,12 @@ function calc() {
 }
 
 document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calc));
+
+// URL params fra bookmarklet
+const params = new URLSearchParams(window.location.search);
+if (params.get('existing')) document.getElementById('existing').value = params.get('existing');
+if (params.get('forecast')) document.getElementById('forecast').value = params.get('forecast');
+
 calc();
 </script>
 </body>
