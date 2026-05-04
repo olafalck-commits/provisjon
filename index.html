@@ -356,14 +356,14 @@
         </div>
         <div class="field">
           <label>Kvartalsmål</label>
-          <input type="number" id="maal" value="167500" inputmode="numeric" />
+          <input type="number" id="maal" value="604000" inputmode="numeric" />
         </div>
       </div>
       <div style="margin-top:10px;">
         <div class="field">
           <label>Periode</label>
           <select id="kvartal">
-            <option value="q2">Q2 2026 — garanti 70% gjelder</option>
+            <option value="q2" selected>Q2 2026 — garanti 70% gjelder</option>
             <option value="normal">Q3+ — ordinær modell</option>
           </select>
         </div>
@@ -377,11 +377,11 @@
       <div class="grid2">
         <div class="field">
           <label>Selskapsbudsjett Q</label>
-          <input type="number" id="s-budsjett" value="306800000" inputmode="numeric" />
+          <input type="number" id="s-budsjett" value="468900000" inputmode="numeric" />
         </div>
         <div class="field">
           <label>Faktisk inntekt Q</label>
-          <input type="number" id="s-faktisk" value="305900000" inputmode="numeric" />
+          <input type="number" id="s-faktisk" value="0" inputmode="numeric" />
         </div>
       </div>
       <div class="selskap-result">
@@ -576,12 +576,44 @@ function calc() {
   update('fc', forecast);
 }
 
-document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calc));
+const FIELDS = ['ote','maal','kvartal','s-budsjett','s-faktisk','existing','forecast'];
 
-// URL params fra bookmarklet
+function saveToStorage() {
+  const data = {};
+  FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+  localStorage.setItem('provisjon_v2', JSON.stringify(data));
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem('provisjon_v2');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    FIELDS.forEach(id => {
+      if (data[id] !== undefined) {
+        const el = document.getElementById(id);
+        if (el) el.value = data[id];
+      }
+    });
+  } catch(e) {}
+}
+
+// Last inn lagrede verdier
+loadFromStorage();
+
+// URL-params fra bookmarklet overstyrer lagrede verdier
 const params = new URLSearchParams(window.location.search);
 if (params.get('existing')) document.getElementById('existing').value = params.get('existing');
 if (params.get('forecast')) document.getElementById('forecast').value = params.get('forecast');
+
+// Lytt på endringer
+document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', () => {
+  saveToStorage();
+  calc();
+}));
 
 calc();
 </script>
